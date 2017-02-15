@@ -1,28 +1,26 @@
 package tips;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Dropdown {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -43,7 +41,7 @@ public class Dropdown {
                 selectedOption = options.get(i).getText();
             }
         }
-        assertThat(selectedOption, is("Option 1"));
+        Assert.assertEquals(selectedOption, "Option 1");
     }
 
     @Test
@@ -52,7 +50,8 @@ public class Dropdown {
         Select selectList = new Select(driver.findElement(By.id("dropdown")));
         selectList.selectByVisibleText("Option 1");
         // You could also use select.selectByValue("1");
-        assertThat(selectList.getFirstSelectedOption().getText(), is(equalTo("Option 1")));
+//        assertThat(selectList.getFirstSelectedOption().getText(), is(equalTo("Option 1")));
+        Assert.assertEquals(selectList.getFirstSelectedOption().getText(), "Option 1");
     }
 
 }

@@ -1,21 +1,15 @@
 package tips;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
 
-//import org.junit.After;
-//import org.junit.Before;
-//import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterClass;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -24,8 +18,8 @@ public class Checkboxes {
 
     @BeforeTest
     public void setUp() throws Exception {
-    	System.setProperty("webdriver.edge.driver", "c:\\selenium\\webdriver\\MicrosoftWebDriver.exe");
-    	driver = new EdgeDriver();
+    	System.setProperty("webdriver.gecko.driver", "c:\\selenium\\webdriver\\geckodriver.exe");
+    	driver = new FirefoxDriver();
     }
 
     @AfterTest
@@ -49,19 +43,19 @@ public class Checkboxes {
         }
     }
 
-//    @Test
+    @Test
     public void checkboxOption1Test() throws Exception {
         driver.get("http://the-internet.herokuapp.com/checkboxes");
         WebElement checkbox = driver.findElement(By.cssSelector("form input:nth-of-type(2)"));
-        assertThat(checkbox.getAttribute("checked"), is(not("null")));
-        assertThat(checkbox.getAttribute("checked"), is("true"));
+        Assert.assertNotNull(checkbox.getAttribute("checked"));
+        Assert.assertTrue(checkbox.getAttribute("checked").equals("true"));
     }
 
-//    @Test
+    @Test
     public void checkboxOption2Test() throws Exception {
         driver.get("http://the-internet.herokuapp.com/checkboxes");
         WebElement checkbox = driver.findElement(By.cssSelector("form input:nth-of-type(2)"));
-        assertThat(checkbox.isSelected(), is(true));
+        Assert.assertTrue(checkbox.isSelected());
     }
 
 }

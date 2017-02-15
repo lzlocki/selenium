@@ -10,24 +10,26 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class BrokenImages2 {
 
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
     }
 
-    @After
+    @AfterTest
     public void tearDown() {
         driver.quit();
     }
@@ -45,7 +47,8 @@ public class BrokenImages2 {
         }
 
         List emptyCollection = new ArrayList();
-        assertThat(brokenImages, is(emptyCollection));
+        Assert.assertEquals(brokenImages, emptyCollection);
+//        Assert.assertEquals(brokenImages.iterator(), emptyCollection.iterator());
     }
 
 }

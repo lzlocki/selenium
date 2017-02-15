@@ -9,14 +9,14 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
@@ -28,8 +28,9 @@ public class BlackList {
     WebDriver driver;
     BrowserMobProxy proxy;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         proxy = new BrowserMobProxyServer();
         proxy.start(0);
         Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
@@ -40,7 +41,7 @@ public class BlackList {
         proxy.blacklistRequests("http:\\/\\/the-internet.herokuapp.com\\/slow_external", 404);
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         proxy.stop();
         driver.quit();

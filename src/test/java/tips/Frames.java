@@ -1,26 +1,27 @@
 package tips;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Frames {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -30,7 +31,7 @@ public class Frames {
         driver.get("http://the-internet.herokuapp.com/nested_frames");
         driver.switchTo().frame("frame-top");
         driver.switchTo().frame("frame-middle");
-        assertThat(driver.findElement(By.id("content")).getText(), is(equalTo("MIDDLE")));
+        Assert.assertEquals(driver.findElement(By.id("content")).getText(), "MIDDLE");
     }
 
     @Test
@@ -44,8 +45,8 @@ public class Frames {
         String afterText = editor.getText();
         assertThat(afterText, not(equalTo((beforeText))));
         driver.switchTo().defaultContent();
-        assertThat(driver.findElement(By.cssSelector("h3")).getText(),
-                is("An iFrame containing the TinyMCE WYSIWYG Editor"));
+//        assertThat(driver.findElement(By.cssSelector("h3")).getText(), is("An iFrame containing the TinyMCE WYSIWYG Editor"));
+        Assert.assertEquals(driver.findElement(By.cssSelector("h3")).getText(), "An iFrame containing the TinyMCE WYSIWYG Editor");
     }
 
 }

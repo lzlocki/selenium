@@ -1,11 +1,11 @@
 package tips;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 /**
  * Created by andrew on 8/22/15.
@@ -14,8 +14,9 @@ public class exampleNotification {
     public class WorkWithBasicAuth {
         WebDriver driver;
 
-        @Before
+        @BeforeTest
         public void setUp() throws Exception {
+        	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
             driver = new FirefoxDriver();
         }
 
@@ -25,7 +26,7 @@ public class exampleNotification {
             assert retryIfNotificationMessageContains("please try again");
         }
 
-        @After
+        @AfterTest
         public void tearDown() throws Exception {
             driver.quit();
         }

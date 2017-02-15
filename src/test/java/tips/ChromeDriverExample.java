@@ -1,21 +1,18 @@
 package tips;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class ChromeDriverExample {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
         System.setProperty("webdriver.chrome.driver",
-                System.getProperty("user.dir") + "/../../vendor/chrome-driver-2.15/chromedriver_mac32");
+                System.getProperty("user.dir") + "vendor/chromedriver.exe");
         driver = new ChromeDriver();
 
 //    Option 2
@@ -24,7 +21,7 @@ public class ChromeDriverExample {
 //        driver = new RemoteWebDriver(new URL("http://localhost:9515"), DesiredCapabilities.chrome());
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -32,7 +29,7 @@ public class ChromeDriverExample {
     @Test
     public void chromeDriverTest() {
         driver.get("http://the-internet.herokuapp.com/");
-        assertThat(driver.getTitle(), is(equalTo("The Internet")));
+        Assert.assertTrue(driver.getTitle().equals("The Internet"));
     }
 
 }

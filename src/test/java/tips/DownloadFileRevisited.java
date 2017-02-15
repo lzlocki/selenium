@@ -1,4 +1,9 @@
 package tips;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeTest;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -7,9 +12,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -17,13 +19,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class DownloadFileRevisited {
     WebDriver driver;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeTest
+	public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterTest
+	public void tearDown() throws Exception {
         driver.quit();
     }
 
@@ -39,8 +42,8 @@ public class DownloadFileRevisited {
         String contentType = response.getFirstHeader("Content-Type").getValue();
         int contentLength = Integer.parseInt(response.getFirstHeader("Content-Length").getValue());
 
-        assertThat(contentType, is("application/octet-stream"));
-        assertThat(contentLength, is(not(0)));
+        Assert.assertEquals(contentType, "application/octet-stream");
+        Assert.assertTrue(contentLength > 0);
     }
 
 }

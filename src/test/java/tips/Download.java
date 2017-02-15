@@ -11,25 +11,27 @@ import static org.junit.Assert.assertThat;
 import java.io.File;
 import java.util.UUID;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 
 public class Download {
     WebDriver driver;
     File folder;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
         folder = new File(UUID.randomUUID().toString());
         folder.mkdir();
 
 //        Firefox
+        System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         FirefoxProfile profile = new FirefoxProfile();
         profile.setPreference("browser.download.dir", folder.getAbsolutePath());
         profile.setPreference("browser.download.folderList", 2);
@@ -39,7 +41,7 @@ public class Download {
         driver = new FirefoxDriver(profile);
 
 //        Chrome
-//        System.setProperty("webdriver.chrome.driver", "vendor/chrome-driver-2.15/chromedriver_linux64");
+//        System.setProperty("webdriver.chrome.driver", "vendor/chromedriver.exe");
 //        ChromeOptions options = new ChromeOptions();
 //        Map<String, Object> prefs = new HashMap<>();
 //        prefs.put("profile.default_content_settings.popups", 0);
@@ -50,7 +52,7 @@ public class Download {
 //        driver = new ChromeDriver(capabilities);
     }
 
-    @After
+    @AfterTest(alwaysRun=true)
     public void tearDown() throws Exception {
         driver.quit();
         for (File file: folder.listFiles()) {
@@ -67,10 +69,10 @@ public class Download {
         Thread.sleep(2000);
         File[] listOfFiles = folder.listFiles();
         // Make sure the directory is not empty
-        assertThat(listOfFiles.length, is(not(0)));
+        Assert.assertNotEquals(listOfFiles.length, 0);
         for (File file : listOfFiles) {
             // Make sure the downloaded file(s) is(are) not empty
-            assertThat(file.length(), is(not((long) 0)));
+        	Assert.assertTrue(listOfFiles.length > 0);
         }
     }
 

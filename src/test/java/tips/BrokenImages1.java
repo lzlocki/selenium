@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Proxy;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +13,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import net.lightbody.bmp.BrowserMobProxy;
 import net.lightbody.bmp.BrowserMobProxyServer;
@@ -28,8 +29,9 @@ public class BrokenImages1 {
     WebDriver driver;
     BrowserMobProxy proxy;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         proxy = new BrowserMobProxyServer();
         proxy.start(0);
         Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
@@ -40,7 +42,7 @@ public class BrokenImages1 {
                                     CaptureType.RESPONSE_CONTENT);
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         proxy.stop();
         driver.quit();
@@ -62,7 +64,8 @@ public class BrokenImages1 {
             }
         }
         List emptyCollection = new ArrayList();
-        assertThat(brokenImages, is(emptyCollection));
+//        assertThat(brokenImages, is(emptyCollection));
+        Assert.assertEquals(emptyCollection, brokenImages);
     }
 
 }

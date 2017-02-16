@@ -1,10 +1,4 @@
 package tips;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,16 +6,21 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Hovers {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -40,7 +39,7 @@ public class Hovers {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("figcaption")));
 
         // Assert that the hover displayed
-        assertThat(driver.findElement(By.className("figcaption")).isDisplayed(), is(Boolean.TRUE));
+        Assert.assertTrue(driver.findElement(By.className("figcaption")).isDisplayed());
     }
 
 }

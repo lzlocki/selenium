@@ -19,6 +19,7 @@ public class InteractivePrompt {
     }
 
     private static WebDriver getDriver() {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         return new FirefoxDriver();
     }
 

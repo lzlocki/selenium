@@ -1,28 +1,29 @@
 package tips;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class RightClick {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
-        driver = new FirefoxDriver();
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
+    	System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/vendor/chromedriver.exe");
+//        driver = new FirefoxDriver();
+        driver = new ChromeDriver();
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -32,14 +33,14 @@ public class RightClick {
         driver.get("http://the-internet.herokuapp.com/context_menu");
         WebElement menu = driver.findElement(By.id("hot-spot"));
         Actions action = new Actions(driver);
-        action.contextClick(menu)
+        action.moveToElement(menu).contextClick()
                 .sendKeys(Keys.ARROW_DOWN)
                 .sendKeys(Keys.ARROW_DOWN)
                 .sendKeys(Keys.ARROW_DOWN)
                 .sendKeys(Keys.ENTER)
                 .perform();
         Alert alert = driver.switchTo().alert();
-        assertThat(alert.getText(), is(equalTo("You selected a context menu")));
+        Assert.assertEquals(alert.getText(), "You selected a context menu");
     }
 
 }

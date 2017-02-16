@@ -1,25 +1,23 @@
 package tips;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class JavaScriptAlert {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -31,7 +29,7 @@ public class JavaScriptAlert {
         Alert popup = driver.switchTo().alert();
         popup.accept();
         String result = driver.findElement(By.id("result")).getText();
-        assertThat(result, is(equalTo("You clicked: Ok")));
+        Assert.assertEquals(result, "You clicked: Ok");
     }
 
 }

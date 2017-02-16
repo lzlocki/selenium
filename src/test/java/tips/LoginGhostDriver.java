@@ -1,30 +1,28 @@
 package tips;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class LoginGhostDriver {
 
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
         System.setProperty("phantomjs.binary.path",
                 System.getProperty("user.dir") +
-                "/vendor/phantomjs-2.1.1-macosx/bin/phantomjs");
+                "/vendor/phantomjs-2.1.1-windows/bin/phantomjs.exe");
         driver = new PhantomJSDriver();
         // Alternatively, you can connect to it with Selenium Remote
         // You'll first need to launch the binary with the --webdriver flag and a port number
@@ -39,7 +37,7 @@ public class LoginGhostDriver {
         // http://se.tips/ghost-driver-grid
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -52,8 +50,9 @@ public class LoginGhostDriver {
         driver.findElement(By.cssSelector("button")).click();
         WebElement successMessage = driver.findElement(By.cssSelector(".flash.success"));
         File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(screenshot, new File(System.getProperty("user.dir") + "/screenshot.png"));
-        assertThat(successMessage.isDisplayed(), is(Boolean.TRUE));
+//        FileUtils.copyFile(screenshot, new File(System.getProperty("user.dir") + "/screenshot.png"));
+        FileUtils.copyFile(screenshot, new File("D:/screenshot.png"));
+        Assert.assertTrue(successMessage.isDisplayed());
     }
 
 }

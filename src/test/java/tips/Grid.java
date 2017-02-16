@@ -5,17 +5,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.net.URL;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Grid {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         //  capabilities.setBrowserName("firefox");
@@ -27,7 +28,7 @@ public class Grid {
         driver = new RemoteWebDriver(new URL(url), capabilities);
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -39,7 +40,8 @@ public class Grid {
         // register node    java -jar ./vendor/selenium-server-standalone.jar -role node -hub http://localhost:4444/grid/register
 
         driver.get("http://the-internet.herokuapp.com/");
-        assertThat(driver.getTitle(), is(equalTo("The Internet")));
+//        assertThat(driver.getTitle(), is(equalTo("The Internet")));
+        Assert.assertEquals(driver.getTitle(), "The Internet");
     }
 
 }

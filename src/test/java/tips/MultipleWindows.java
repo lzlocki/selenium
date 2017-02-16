@@ -1,27 +1,24 @@
 package tips;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.util.Set;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class MultipleWindows {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -31,10 +28,11 @@ public class MultipleWindows {
         driver.get("http://the-internet.herokuapp.com/windows");
         driver.findElement(By.cssSelector(".example a")).click();
         Object[] allWindows = driver.getWindowHandles().toArray();
+//        System.out.println(allWindows);
         driver.switchTo().window(allWindows[0].toString());
-        assertThat(driver.getTitle(), is(not("New Window")));
+        Assert.assertNotEquals(driver.getTitle(), "New Window");
         driver.switchTo().window(allWindows[1].toString());
-        assertThat(driver.getTitle(), is("New Window"));
+        Assert.assertEquals(driver.getTitle(), "New Window");
     }
 
     @Test
@@ -60,11 +58,11 @@ public class MultipleWindows {
 
         // Switch to the first window & verify
         driver.switchTo().window(firstWindow);
-        assertThat(driver.getTitle(), is(not(equalTo("New Window"))));
+        Assert.assertNotEquals(driver.getTitle(), "New Window");
 
         // Switch to the new window & verify
         driver.switchTo().window(newWindow);
-        assertThat(driver.getTitle(), is(equalTo("New Window")));
+        Assert.assertEquals(driver.getTitle(), "New Window");
     }
 
 }

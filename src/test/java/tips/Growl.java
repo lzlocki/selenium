@@ -1,22 +1,23 @@
 package tips;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Growl {
     WebDriver driver;
     JavascriptExecutor js;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
         js = (JavascriptExecutor) driver;
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }

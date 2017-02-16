@@ -1,7 +1,4 @@
 package tips;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,17 +6,17 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-/**
- * Created by andrew on 8/22/15.
- */
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class onePageExample {
 
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
     }
 
@@ -27,11 +24,11 @@ public class onePageExample {
     public void workWithBasicAuthTest() {
         GoogleSearchOnePage google = new GoogleSearchOnePage(driver);
         google.searchFor("elemental selenium tips");
-        boolean result = google.searchResultPresent("Recieve a Free, Weekly tip");
+        boolean result = google.searchResultPresent("Receive a Free, Weekly Tip");
         assert (result);
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -41,12 +38,12 @@ class GoogleSearchOnePage extends Base {
 
     WebDriver driver;
 
-    By searchBox = By.id("gbqfq");
-    By searchBoxSubmit = By.id("gbqfb");
+    By searchBox = By.name("q");
+    By searchBoxSubmit = By.name("q");
     By topSearchResult = By.cssSelector("#rso .g");
 
-    public GoogleSearchOnePage(WebDriver _driver) {
-        super(_driver, "http://www.google.com");
+    public GoogleSearchOnePage(WebDriver driver) {
+        super(driver, "http://www.google.com");
         visit();
         verifyPage();
     }
@@ -65,7 +62,7 @@ class GoogleSearchOnePage extends Base {
 
 
     public void verifyPage() {
-        assert (title().contains("Google"));
+        assert (title().contains("google"));
     }
 }
 
@@ -74,8 +71,8 @@ class Base {
     private String BASE_URL;
     private final WebDriver driver;
 
-    public Base(WebDriver _driver, String baseUrl) {
-        this.driver = _driver;
+    public Base(WebDriver driver, String baseUrl) {
+        this.driver = driver;
         this.BASE_URL = baseUrl;
     }
 

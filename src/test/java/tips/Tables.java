@@ -8,24 +8,26 @@ import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class Tables {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
         driver = new FirefoxDriver();
 
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
@@ -46,7 +48,8 @@ public class Tables {
 
         // check that dues are in ascending order
         for (int counter = 0; counter < dueValues.size() - 1; counter++) {
-            assertThat(dueValues.get(counter), is(lessThanOrEqualTo(dueValues.get(counter + 1))));
+//            assertThat(dueValues.get(counter), is(lessThanOrEqualTo(dueValues.get(counter + 1))));
+        	Assert.assertTrue(dueValues.get(counter) <= dueValues.get(counter + 1));
         }
     }
 
@@ -67,7 +70,8 @@ public class Tables {
 
         // assert dues are in descending order
         for (int counter = 0; counter < dueValues.size() - 1; counter++) {
-            assertThat(dueValues.get(counter), is(greaterThanOrEqualTo(dueValues.get(counter + 1))));
+//            assertThat(dueValues.get(counter), is(greaterThanOrEqualTo(dueValues.get(counter + 1))));
+        	Assert.assertTrue(dueValues.get(counter) >= dueValues.get(counter + 1));
         }
     }
 
@@ -83,11 +87,12 @@ public class Tables {
 
         // assert emails are in ascending order
         for(int counter = 0; counter < emails.size() -1; counter++){
-            assertThat(
-                    emails.get(counter).getText().compareTo(emails.get(counter + 1).getText()),
-                    is(lessThan(0)));
+//            assertThat(
+//                    emails.get(counter).getText().compareTo(emails.get(counter + 1).getText()),
+//                    is(lessThan(0)));
             // checking for a negative number for ascending order
             // would check for a positive number if descending
+            Assert.assertTrue(emails.get(counter).getText().compareTo(emails.get(counter + 1).getText()) < 0);
         }
     }
 
@@ -102,7 +107,8 @@ public class Tables {
             dueValues.add(Double.parseDouble(element.getText().replace("$", "")));
         }
         for(int counter = 0; counter < dueValues.size() - 1; counter++){
-            assertThat(dueValues.get(counter), is(lessThanOrEqualTo(dueValues.get(counter + 1))));
+//            assertThat(dueValues.get(counter), is(lessThanOrEqualTo(dueValues.get(counter + 1))));
+        	Assert.assertTrue(dueValues.get(counter) <= dueValues.get(counter + 1));
         }
     }
 }

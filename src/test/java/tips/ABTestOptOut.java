@@ -1,8 +1,4 @@
 package tips;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.startsWith;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;

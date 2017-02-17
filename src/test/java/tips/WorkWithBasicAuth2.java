@@ -2,23 +2,27 @@ package tips;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class WorkWithBasicAuth2 {
     WebDriver driver;
 
-    @Before
+    @BeforeTest
     public void setUp() throws Exception {
-        driver = new FirefoxDriver();
+    	System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/vendor/geckodriver.exe");
+    	FirefoxProfile profile = new FirefoxProfile();
+    	profile.setPreference("network.http.phishy-userpass-length", 255);
+    	driver = new FirefoxDriver(profile);
         driver.get("http://admin:admin@the-internet.herokuapp.com/basic_auth");
     }
 
-    @After
+    @AfterTest
     public void tearDown() throws Exception {
         driver.quit();
     }
